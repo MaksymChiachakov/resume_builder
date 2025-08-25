@@ -1,6 +1,34 @@
-{% extends "builder/base.html" %}
-{% block title %}Профіль{% endblock %}
+{% extends 'builder/base.html' %}
 {% block content %}
-<h2>Привіт, {{ user.username }}!</h2>
-<p>Тут ти зможеш керувати своїми резюме.</p>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Мій профіль</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Оновити профіль</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h3>Мої резюме</h3>
+        <a href="{% url 'create_resume' %}" class="btn btn-primary mb-3">Створити резюме</a>
+
+        <ul class="list-group">
+            {% for r in resumes %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ r.title }}</strong> (Шаблон: {{ r.template.name }})
+                </div>
+                <div>
+                    <a href="{% url 'view_resume' r.id %}" class="btn btn-sm btn-info">Перегляд</a>
+                    <a href="{% url 'edit_resume_sections' r.id %}" class="btn btn-sm btn-primary">Редагувати</a>
+                    <a href="{% url 'clone_resume' r.id %}" class="btn btn-sm btn-success">Клонувати</a>
+                </div>
+            </li>
+            {% empty %}
+            <li class="list-group-item">У вас ще немає резюме.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

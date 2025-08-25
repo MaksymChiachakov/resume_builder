@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Оголошення</h2>
+<ul>
+    {% for item in news %}
+    <li><strong>{{ item.title }}</strong><br>{{ item.content }}</li>
+    {% empty %}
+    <li>Немає новин</li>
+    {% endfor %}
+</ul>
+{% endblock %}

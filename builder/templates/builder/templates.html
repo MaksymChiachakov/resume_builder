@@ -1,9 +1,17 @@
-<!DOCTYPE html>
-<html>
-
-<body>
-    <h2>Шаблони резюме</h2>
-    <p>Тут буде каталог шаблонів.</p>
-</body>
-
-</html>
+{% extends 'builder/base.html' %}
+{% block content %}
+<h2>Каталог шаблонів</h2>
+<div class="row">
+    {% for t in templates %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ t.preview_image.url }}" class="card-img-top">
+            <div class="card-body">
+                <h4>{{ t.name }}</h4>
+                <p>{{ t.description }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

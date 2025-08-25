@@ -1,0 +1,26 @@
+{% extends 'builder/base.html' %}
+{% block title %}Мої резюме{% endblock %}
+{% block content %}
+<h2>Мої резюме</h2>
+
+<a href="{% url 'create_resume' %}" class="btn btn-primary mb-3">Створити нове резюме</a>
+
+<div class="row">
+    {% for resume in resumes %}
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ resume.title }}</h5>
+                <p class="card-text">Шаблон: {{ resume.template.name }}</p>
+                <p class="card-text">Створено: {{ resume.created_at|date:"d.m.Y" }}</p>
+                <a href="{% url 'edit_resume_sections' resume.id %}" class="btn btn-primary">Редагувати</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">У вас ще немає резюме.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

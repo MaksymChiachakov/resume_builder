@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ resume.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #555;
+            margin-top: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ resume.title }}</h1>
+
+    {% for section in sections %}
+    <div class="section">
+        <h2>{{ section.title }}</h2>
+        <p>{{ section.content|linebreaks }}</p>
+    </div>
+    {% endfor %}
+</body>
+
+</html>

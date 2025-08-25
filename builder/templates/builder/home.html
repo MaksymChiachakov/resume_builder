@@ -1,6 +1,55 @@
 {% extends "builder/base.html" %}
 {% block title %}Головна - Резюме-Білдер{% endblock %}
 {% block content %}
-<h1>Ласкаво просимо до Резюме-Білдера!</h1>
-<p>Створюй своє резюме швидко та зручно.</p>
+<div class="jumbotron bg-light p-5 rounded mb-4">
+    <h1 class="display-4">Ласкаво просимо до Резюме-Білдера!</h1>
+    <p class="lead">Створюй своє резюме швидко та зручно.</p>
+    <hr class="my-4">
+    <p>Обери шаблон, заповни інформацію та завантаж своє резюме в потрібному форматі.</p>
+    {% if not user.is_authenticated %}
+    <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Почати</a>
+    {% else %}
+    <a class="btn btn-primary btn-lg" href="{% url 'create_resume' %}" role="button">Створити резюме</a>
+    {% endif %}
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-8">
+        <h2>Популярні шаблони</h2>
+        <div class="row">
+            {% for template in templates %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{{ template.preview_image.url }}" class="card-img-top" alt="{{ template.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ template.name }}</h5>
+                        <p class="card-text">{{ template.description|truncatewords:10 }}</p>
+                        <a href="{% url 'resume_templates' %}" class="btn btn-sm btn-outline-primary">Детальніше</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p>Шаблони відсутні.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Останні оголошення</h2>
+        <ul class="list-group">
+            {% for announcement in announcements %}
+            <li class="list-group-item">
+                <h5>{{ announcement.title }}</h5>
+                <p>{{ announcement.content|truncatewords:10 }}</p>
+                <small class="text-muted">{{ announcement.created_at|date:"d.m.Y" }}</small>
+            </li>
+            {% empty %}
+            <li class="list-group-item">Оголошення відсутні.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'announcements' %}" class="btn btn-sm btn-outline-secondary mt-2">Всі оголошення</a>
+    </div>
+</div>
 {% endblock %}

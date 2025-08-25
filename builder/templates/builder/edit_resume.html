@@ -1,0 +1,56 @@
+{% extends 'builder/base.html' %}
+
+{% block title %}Редагувати резюме - {{ resume.title }}{% endblock %}
+
+{% block content %}
+<h2>Редагувати резюме: {{ resume.title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3>Редагувати існуючі розділи</h3>
+            {% if sections %}
+            {% for section in sections %}
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ section.title }}</h5>
+                    <a href="{% url 'delete_resume_section' section.id %}" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Ви впевнені, що хочете видалити цей розділ?')">
+                        Видалити
+                    </a>
+                </div>
+                <div class="card-body">
+                    <textarea name="section_content_{{ section.id }}" class="form-control"
+                        rows="6">{{ section.content }}</textarea>
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" name="save_sections" class="btn btn-primary">Зберегти зміни в існуючих
+                розділах</button>
+            {% else %}
+            <p>Ще немає доданих розділів</p>
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Додати новий розділ</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Назва розділу</label>
+                <input type="text" class="form-control" name="section_title" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Зміст</label>
+                <textarea class="form-control" name="section_content" rows="5" required></textarea>
+            </div>
+            <button type="submit" name="add_section" class="btn btn-primary">Додати розділ</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
